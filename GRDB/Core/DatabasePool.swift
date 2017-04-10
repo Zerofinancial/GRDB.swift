@@ -4,6 +4,10 @@ import Foundation
     import UIKit
 #endif
 
+#if SWIFT_PACKAGE
+    import SQLiteSDK
+#endif
+
 /// A DatabasePool grants concurrent accesses to an SQLite database.
 public final class DatabasePool {
     
@@ -430,6 +434,12 @@ extension DatabasePool : DatabaseWriter {
                 try block(db)
             }
         }
+    }
+    
+    /// Returns an optional database connection. If not nil, the caller is
+    /// executing on the serialized writer dispatch queue.
+    public var availableDatabaseConnection: Database? {
+        return writer.availableDatabaseConnection
     }
     
     
